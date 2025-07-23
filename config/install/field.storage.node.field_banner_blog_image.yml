@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - blog_manager
+      - file
+      - image
+      - node
+id: node.field_banner_blog_image
+field_name: field_banner_blog_image
+entity_type: node
+type: image
+settings:
+  uri_scheme: public
+  default_image: {  }
+  max_filesize: '5 MB'
+  file_extensions: 'png jpg jpeg gif'
+  alt_field: true
+  title_field: false
+module: image
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

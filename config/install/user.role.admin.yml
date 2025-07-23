@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies: {  }
+id: blog_admin
+label: Blog Admin
+weight: 1234
+is_admin: null
+permissions:
+  - 'create blog content'
+  - 'view any unpublished content'
+  - 'view own unpublished content'
+  - 'delete any blog content'
+  - 'delete own blog content'
+  - 'edit any blog content'
+  - 'create blog editor'
+  - 'suspend user'
+  - 'edit own blog content'
+  - 'list editors'
+  - 'view user information'
+  - 'administer users'

@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    config:
+      - field.storage.node.field_content
+      - node.type.blog
+    module:
+      - blog_manager
+      - node
+      - text
+id: node.blog.field_content
+field_name: field_content
+entity_type: node
+bundle: blog
+label: 'Content'
+description: 'Enter the content for the blog post.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_long

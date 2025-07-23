@@ -1,0 +1,28 @@
+view own blog:
+  title: 'view own blog'
+edit own blog content:
+  title: 'edit own blog content'
+delete own blog content:
+  title: 'delete own blog content'
+edit any blog content:
+  title: 'edit any blog content'
+delete any blog content:
+  title: 'delete any blog content'
+view own unpublished content:
+  title: 'view own unpublished content' 
+view any unpublished content:
+  title: 'view any unpublished content'  
+create blog editor:
+  title: 'create blog editor' 
+suspend user:
+  title: 'suspend user'  
+create blog content:
+  title: 'create blog content'
+list editors:
+  title: 'list editors'
+own content view:
+  title: 'own content view'
+view user information:
+  title: 'view user information'
+administer users:
+  title: 'administer users'

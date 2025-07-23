@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - blog_manager
+      - node
+      - options
+id: node.blog.field_post_status
+field_name: field_post_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: draft
+      label: Draft
+    -
+      value: ready_to_publish
+      label: 'Ready to Publish'
+    -
+      value: approved
+      label: Approved
+    -
+      value: reject
+      label: Reject 
+    -
+      value: published
+      label: Published
+    -
+      value: archived
+      label: Archived
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
+

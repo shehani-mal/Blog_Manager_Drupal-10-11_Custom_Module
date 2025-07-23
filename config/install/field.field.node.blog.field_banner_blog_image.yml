@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    config:
+      - field.storage.node.field_banner_blog_image
+      - node.type.blog
+    module:
+      - blog_manager
+      - file
+      - image
+      - node
+id: node.blog.field_banner_blog_image
+field_name: field_banner_blog_image
+entity_type: node
+bundle: blog
+label: 'Banner Image'
+description: 'Upload a banner image for the blog post.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: image
+

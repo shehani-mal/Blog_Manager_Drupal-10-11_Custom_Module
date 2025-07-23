@@ -1,0 +1,49 @@
+# route define for listing Blog editors 
+blog_manager.list_editors:
+  path: '/admin/blog_manager/list_editors'
+  defaults:
+    _controller: '\Drupal\blog_manager\Controller\ListEditorController::list'
+    _title: 'Manage Users'
+  requirements:
+    _permission: 'list editors'
+
+# route define for display by all blog post by author
+blog_manager.author_blog_list:
+  path: '/admin/blog_manager/my_post'
+  defaults:
+    _controller: '\Drupal\blog_manager\Controller\ListAuthorBlogController::listauthor'
+    _title: 'My Blog Posts'
+  requirements:
+    _permission: 'own content view'
+
+# route define for display list of own blog post by author
+blog_manager.list_all_blog:
+  path: '/admin/blog_manager/all_posts'
+  defaults:
+    _controller: '\Drupal\blog_manager\Controller\ListAllPostController::listall'
+    _title: 'All Blog Posts'
+  requirements:
+    _permission: 'list editors'
+
+# route define for form of create user account (blog editor)
+blog_manager.create_blog_editor:
+  path: '/admin/blog_manager/create-blog-editor'
+  defaults:
+    _form: '\Drupal\blog_manager\Form\CreateBlogEditorForm'
+    _title: 'Create Blog Editor User'
+  requirements:
+    _permission: 'create blog editor'
+
+# route define for form of suspend editor user account
+blog_manager.edit_blog_editor_status:
+  path: '/admin/blog_manager/edit-blog-editor/{user}'
+  defaults:
+    _form: '\Drupal\blog_manager\Form\EditBlogEditorStatusForm'
+    _title: 'Edit user Status'
+  requirements:
+    _permission: 'suspend user'
+    user: \d+
+
+
+
+

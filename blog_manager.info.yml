@@ -1,0 +1,8 @@
+name: 'Blog Post Management'
+type: module
+description: 'handling blog post '
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - node
+version: 1.0

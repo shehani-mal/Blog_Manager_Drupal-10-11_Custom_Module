@@ -1,0 +1,194 @@
+<?php
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Datetime\DrupalDateTime;
+
+//node access permission
+function blog_manager_node_access(\Drupal\node\Entity\Node $node, $op, \Drupal\Core\Session\AccountInterface $account)
+{
+    // Allow application_admin to view unpublished blog_post nodes.
+    if ($op === 'view' && $account->hasRole('blog_admin'))
+    {
+        if ($node->bundle() === 'blog')
+        {
+            return \Drupal\Core\Access\AccessResult::allowed();
+        }
+    }
+
+    // Allow users to view unpublished content they created.
+    if ($op === 'view' && $account->hasPermission('view unpublished own content') && $node->getOwnerId() === $account->id())
+    {
+        return \Drupal\Core\Access\AccessResult::allowed();
+    }
+
+    return \Drupal\Core\Access\AccessResult::neutral();
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function blog_manager_form_alter(array & $form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+    // Check if we are altering the blog node edit form.
+    
+
+    if ($form_id == 'node_blog_form' && isset($form['field_post_status']))
+    {
+        $user = \Drupal::currentUser();
+
+        // Define status options based on user roles.
+        $status_options = $form['field_post_status']['widget']['#options'];
+
+        if ($user->hasRole('blog_editor'))
+        {
+            // Add 'archived' option for users with admin permissions.
+            unset($status_options['approved']);
+            unset($status_options['reject']);
+            unset($status_options['published']);
+            unset($status_options['archived']);
+
+        }
+
+        // Set the allowed values for the status field.
+        $form['field_post_status']['widget']['#options'] = $status_options;
+    }
+}
+
+//hook_form_alter().
+function blog_manager_form_node_blog_edit_form_alter(&$form, FormStateInterface $form_state, $form_id)
+{
+    $node = $form_state->getFormObject()
+        ->getEntity();
+    if ($node instanceof Node && $node->bundle() === 'blog')
+    {
+        $current_user = \Drupal::currentUser();
+
+        $form['custom_state'] = [
+          '#type' => 'hidden',
+          '#value' => $node->get('field_post_status')->value ?? 'draft',
+        ];
+        // Add the Draft button for blog_editor role
+        $form['actions']['draft'] = ['#type' => 'submit', '#value' => t('Save as Draft') , '#submit' => ['blog_manager_draft_submit'], '#weight' => 10, ];
+        if ($current_user->hasRole('blog_editor'))
+        {
+
+            if (isset($form['field_post_status']['widget']['#options']))
+            {
+                $status_options = $form['field_post_status']['widget']['#options'];
+                // Keep only draft and ready_to_publish options
+                $allowed_options = ['draft' => $status_options['draft'], 'ready_to_publish' => $status_options['ready_to_publish'], ];
+                $form['field_post_status']['widget']['#options'] = $allowed_options;
+            }
+
+            $form['actions']['submit']['#value'] = t('Ready to Publish');
+            $form['actions']['submit']['#submit'][] = 'blog_manager_ready_to_publish_submit';
+        }
+        elseif ($current_user->hasRole('blog_admin') && $node->get('field_post_status')->value === 'ready_to_publish')
+        {
+            $form['actions']['submit']['#value'] = t('Approve');
+            $form['actions']['submit']['#submit'][] = 'blog_manager_approve_submit';
+
+            $form['actions']['reject'] = ['#type' => 'submit', '#value' => t('Reject') , '#submit' => ['blog_manager_reject_submit'], '#weight' => 10, ];
+
+            $form['publish_options'] = ['#type' => 'radios', '#title' => t('Publish Options') , '#options' => ['publish_now' => t('Publish Now') , 'publish_later' => t('Publish on Date') , ], '#default_value' => 'publish_now', ];
+
+            if ($node->hasField('field_publish_on'))
+            {
+                $form['publish_date'] = ['#type' => 'datetime', '#title' => t('Publish Date') , '#states' => ['visible' => [':input[name="publish_options"]' => ['value' => 'publish_later'], ], ], ];
+            }
+        }
+    }
+}
+
+//ready to publis submit
+function blog_manager_ready_to_publish_submit($form, FormStateInterface $form_state)
+{
+    $node = $form_state->getFormObject()
+        ->getEntity();
+    $node->set('field_post_status', 'ready_to_publish');
+    $node->setUnpublished();
+    $node->save();
+}
+
+//approve button submit
+function blog_manager_approve_submit($form, FormStateInterface $form_state)
+{
+    $node = $form_state->getFormObject()
+        ->getEntity();
+    $publish_option = $form_state->getValue('publish_options');
+
+    if ($publish_option === 'publish_now')
+    {
+        $node->set('field_post_status', 'approved');
+        $node->setPublished();
+    }
+    elseif ($publish_option === 'publish_later' && $node->hasField('field_publish_on'))
+    {
+        $publish_date = $form_state->getValue('publish_date');
+        if ($publish_date instanceof DrupalDateTime)
+        {
+            $node->set('field_post_status', 'approved');
+            $node->setPublished(false);
+            $node->set('field_publish_on', $publish_date->getTimestamp());
+        }
+    }
+    $node->save();
+}
+
+//reject state submission
+function blog_manager_reject_submit($form, FormStateInterface $form_state)
+{
+    $node = $form_state->getFormObject()
+        ->getEntity();
+    $node->set('field_post_status', 'draft');
+    $node->setUnpublished();
+    $node->save();
+}
+
+//presave().
+function blog_manager_entity_presave(\Drupal\Core\Entity\EntityInterface $entity)
+{
+    if ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'blog')
+    {
+        $custom_state = $entity->get('field_post_status')->value;
+
+        if ($custom_state === 'draft')
+        {
+            $entity->setUnpublished();
+        }
+        elseif ($custom_state === 'ready_to_publish')
+        {
+            $entity->setUnpublished();
+        }
+        elseif ($custom_state === 'approved')
+        {
+            if ($entity->hasField('field_publish_on'))
+            {
+                $publish_on = $entity->get('field_publish_on')->value;
+                if ($publish_on && $publish_on > REQUEST_TIME)
+                {
+                    $entity->setUnpublished();
+                }
+                else
+                {
+                    $entity->setPublished();
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Custom submit handler for 'Save as Draft'.
+ */
+function blog_manager_draft_submit($form, FormStateInterface $form_state)
+{
+    $node = $form_state->getFormObject()
+        ->getEntity();
+    $node->set('field_post_status', 'draft');
+    $node->save();
+
+    // Redirect to the node view page
+    $form_state->setRedirect('entity.node.canonical', ['node' => $node->id() ]);
+}
+

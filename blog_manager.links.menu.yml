@@ -1,0 +1,25 @@
+
+blog_manager.list_editors_menu:
+  title: 'User Management'
+  description: 'List of Blog Editors'
+  parent: main
+  menu_name: main
+  route_name: blog_manager.list_editors
+  weight: 1
+  
+blog_manager.author_blog_list_menu:
+  title: 'Blog Managment'
+  description: 'List of My Blog Posts'
+  parent: main
+  menu_name: main
+  route_name: blog_manager.author_blog_list
+  weight: 2
+  
+blog_manager.list_all_blog_menu:
+  title: 'Blog Management'
+  description: 'List of All Blog Posts'
+  parent: main
+  menu_name: main
+  route_name: blog_manager.list_all_blog
+  weight: 3
+  

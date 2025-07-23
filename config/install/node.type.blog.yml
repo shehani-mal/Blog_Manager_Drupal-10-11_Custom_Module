@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - blog_manager
+name: 'Blog'
+type: blog
+description: 'Content type that can be used to create blog posts (custom)'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: true
+
+
+
+
+     

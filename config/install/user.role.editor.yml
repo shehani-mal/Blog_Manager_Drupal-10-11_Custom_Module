@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+id: blog_editor
+label: Blog Editor
+weight: 1234
+is_admin: null
+permissions:
+  - 'view own blog'
+  - 'edit own blog content'
+  - 'delete own blog content'
+  - 'view own unpublished content'
+  - 'create blog content'
+  - 'own content view'
