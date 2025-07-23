@@ -54,3 +54,47 @@ Drupal 9 and 10 include the "Blog" content type in the standard installation pro
 2. Enable the module via the UI or using Drush:
    ```bash
    drush en blog_manager
+
+## 📸 Screenshots
+
+### 1. Editor Login – Dashboard
+When a user with the **Editor** role logs in, they see a simplified dashboard with access to manage their own blog posts.
+
+![Editor Login](screenshots/blog-1-login-as-blog-editor.png)
+
+---
+
+### 2. Editor – Create Blog Post Form  
+Editors can create new blog posts using a structured form with a title, banner image, rich text content, and post status.
+
+![Editor Create Blog](screenshots/blog-2-editor-login-blog-add-form.png)
+
+---
+
+### 3. Editor – My Blog Posts Table  
+Editors can view, edit, and track the status of their own blog posts in a personal list view.
+
+![Editor Posts Table](screenshots/blog-3-bloguser-table.png)
+
+---
+
+### 4. Admin – Blog Editors Table  
+Admins can manage blog editors by activating, suspending, or modifying their status through a custom interface.
+
+![Admin Users](screenshots/blog-4-admin-user-table.png)
+
+---
+
+### 5. Admin – All Blog Posts  
+Admins see a table of all posts submitted by editors and can approve, reject, or archive them.
+
+![Admin Blog Posts](screenshots/blog-5-admin-blog-posts-table.png)
+
+---
+
+### 6. Admin – Role and Permission Setup  
+On installation, the module creates and configures roles for **Editor** and **Admin**, assigning appropriate permissions.
+
+![Permissions](screenshots/blog-6-users-admin.png)
+
+   
