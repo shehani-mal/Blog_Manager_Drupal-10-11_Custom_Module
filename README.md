@@ -67,34 +67,34 @@ When a user with the **Editor** role logs in, they see a simplified dashboard wi
 ### 2. Editor – Create Blog Post Form  
 Editors can create new blog posts using a structured form with a title, banner image, rich text content, and post status.
 
-![Editor Create Blog](screenshots/blog-2-editor-login-blog-add-form.png)
+![Editor Create Blog](screenshots/blog-2.png)
 
 ---
 
 ### 3. Editor – My Blog Posts Table  
 Editors can view, edit, and track the status of their own blog posts in a personal list view.
 
-![Editor Posts Table](screenshots/blog-3-bloguser-table.png)
+![Editor Posts Table](screenshots/blog-3.png)
 
 ---
 
 ### 4. Admin – Blog Editors Table  
 Admins can manage blog editors by activating, suspending, or modifying their status through a custom interface.
 
-![Admin Users](screenshots/blog-4-admin-user-table.png)
+![Admin Users](screenshots/blog-4.png)
 
 ---
 
 ### 5. Admin – All Blog Posts  
 Admins see a table of all posts submitted by editors and can approve, reject, or archive them.
 
-![Admin Blog Posts](screenshots/blog-5-admin-blog-posts-table.png)
+![Admin Blog Posts](screenshots/blog-5.png)
 
 ---
 
 ### 6. Admin – Role and Permission Setup  
 On installation, the module creates and configures roles for **Editor** and **Admin**, assigning appropriate permissions.
 
-![Permissions](screenshots/blog-6-users-admin.png)
+![Permissions](screenshots/blog-6.png)
 
    
