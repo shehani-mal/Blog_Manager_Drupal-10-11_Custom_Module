@@ -60,7 +60,7 @@ Drupal 9 and 10 include the "Blog" content type in the standard installation pro
 ### 1. Editor Login – Dashboard
 When a user with the **Editor** role logs in, they see a simplified dashboard with access to manage their own blog posts.
 
-![Editor Login](screenshots/blog-1-login-as-blog-editor.png)
+![Editor Login](screenshots/blog.png)
 
 ---
 
